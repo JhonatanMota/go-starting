@@ -26,6 +26,8 @@ func main() {
 		panic(err)
 	}
 
+	defer db.Close()
+
 	orderRepository := database.NewOrderRepository(db)
 	userCase := usecase.NewCalculateFinalPrice(orderRepository)
 
