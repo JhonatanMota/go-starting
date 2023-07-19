@@ -1,7 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+
+	"github.com/jhonatanMota/go-starting/internal/infra/database"
+	"github.com/jhonatanMota/go-starting/internal/usecase"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -15,6 +20,22 @@ func main() {
 	}
 
 	car.Start()
+
+	db, err := sql.Open("sqlite3", "db.sqlite3")
+	if err != nil {
+		panic(err)
+	}
+
+	orderRepository := database.NewOrderRepository(db)
+	userCase := usecase.NewCalculateFinalPrice(orderRepository)
+
+	input := usecase.OrderInput{
+		ID:    "1",
+		Price: 10.0,
+		Tax:   2.0,
+	}
+
+	userCase.Execute(input)
 }
 
 func Hello(name string) string {
