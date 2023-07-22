@@ -3,10 +3,13 @@ package usecase
 import "github.com/jhonatanMota/go-starting/internal/entity"
 
 type OrderInput struct {
-	ID    string
-	Price float64
-	Tax   float64
+	ID    string  `json:"id"`
+	Price float64 `json:"price"`
+	Tax   float64 `json:"tax"`
 }
+
+// json published by rabbitmq queue
+// {"id": "1", "price": 100.0, "tax": 10.0}
 
 type OrderOutput struct {
 	ID         string
